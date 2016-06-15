@@ -4,6 +4,7 @@ namespace Markup\RabbitMq;
 
 use Guzzle\Http\Client as GuzzleHttpClient;
 use Markup\RabbitMq\ManagementApi\Api as Api;
+use Markup\RabbitMq\ManagementApi\Client as RabbitMqApiClient;
 
 /**
  * Factory class for API Endpoints.
@@ -12,16 +13,14 @@ use Markup\RabbitMq\ManagementApi\Api as Api;
 class Api
 {
     /**
-     * @var GuzzleHttpClient
+     * @var RabbitMqApiClient
      */
     private $client;
 
     /**
-     * Api constructor.
-     *
-     * @param GuzzleHttpClient $client
+     * @param RabbitMqApiClient $client
      */
-    public function __construct(GuzzleHttpClient $client)
+    public function __construct(RabbitMqApiClient $client)
     {
         $this->client = $client;
     }
@@ -47,7 +46,7 @@ class Api
      */
     public function overview()
     {
-        return new Api\Overview($this);
+        return new Api\Overview($this->client);
     }
 
     /**
@@ -55,7 +54,7 @@ class Api
      */
     public function extensions()
     {
-        return new Api\Extension($this);
+        return new Api\Extension($this->client);
     }
 
     /**
@@ -63,7 +62,7 @@ class Api
      */
     public function definitions()
     {
-        return new Api\Definition($this);
+        return new Api\Definition($this->client);
     }
 
     /**
@@ -71,7 +70,7 @@ class Api
      */
     public function connections()
     {
-        return new Api\Connection($this);
+        return new Api\Connection($this->client);
     }
 
     /**
@@ -79,7 +78,7 @@ class Api
      */
     public function channels()
     {
-        return new Api\Channel($this);
+        return new Api\Channel($this->client);
     }
 
     /**
@@ -87,7 +86,7 @@ class Api
      */
     public function exchanges()
     {
-        return new Api\Exchange($this);
+        return new Api\Exchange($this->client);
     }
 
     /**
@@ -95,7 +94,7 @@ class Api
      */
     public function queues()
     {
-        return new Api\Queue($this);
+        return new Api\Queue($this->client);
     }
 
     /**
@@ -103,7 +102,7 @@ class Api
      */
     public function vhosts()
     {
-        return new Api\Vhost($this);
+        return new Api\Vhost($this->client);
     }
 
     /**
@@ -111,7 +110,7 @@ class Api
      */
     public function bindings()
     {
-        return new Api\Binding($this);
+        return new Api\Binding($this->client);
     }
 
     /**
@@ -119,7 +118,7 @@ class Api
      */
     public function users()
     {
-        return new Api\User($this);
+        return new Api\User($this->client);
     }
 
     /**
@@ -127,7 +126,7 @@ class Api
      */
     public function permissions()
     {
-        return new Api\Permission($this);
+        return new Api\Permission($this->client);
     }
 
     /**
@@ -135,7 +134,7 @@ class Api
      */
     public function parameters()
     {
-        return new Api\Parameter($this);
+        return new Api\Parameter($this->client);
     }
 
     /**
@@ -143,7 +142,7 @@ class Api
      */
     public function policies()
     {
-        return new Api\Policy($this);
+        return new Api\Policy($this->client);
     }
 
     /**
@@ -151,6 +150,6 @@ class Api
      */
     public function whoami()
     {
-        return new Api\WhoAmI($this);
+        return new Api\WhoAmI($this->client);
     }
 }
