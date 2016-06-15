@@ -1,6 +1,6 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
 /**
  * User
@@ -22,12 +22,12 @@ class User extends AbstractApi
     /**
      * An individual user.
      *
-     * @param string $name
+     * @param  string $name
      * @return array
      */
     public function get($name)
     {
-        return $this->client->send(array('/api/users/{name}', array('name' => $name)));
+        return $this->client->send(['/api/users/{name}', ['name' => $name]]);
     }
 
     /**
@@ -43,34 +43,34 @@ class User extends AbstractApi
      * ensure the user cannot use a password to log in. tags is a comma-separated list of tags for the user. Currently
      * recognised tags are "administrator", "monitoring" and "management".
      *
-     * @param string $name
-     * @param array $user
+     * @param  string $name
+     * @param  array  $user
      * @return mixed
      */
     public function create($name, array $user)
     {
-        return $this->client->send(array('/api/users/{name}', array('name' => $name)), 'PUT', null, $user);
+        return $this->client->send(['/api/users/{name}', ['name' => $name]], 'PUT', null, $user);
     }
 
     /**
      * Delete a user.
      *
-     * @param string $name
+     * @param  string $name
      * @return array
      */
     public function delete($name)
     {
-        return $this->client->send(array('/api/users/{name}', array('name' => $name)), 'DELETE');
+        return $this->client->send(['/api/users/{name}', ['name' => $name]], 'DELETE');
     }
 
     /**
      * A list of all permissions for a given user.
      *
-     * @param string $name
+     * @param  string $name
      * @return array
      */
     public function permissions($name)
     {
-        return $this->client->send(array('/api/users/{name}/permissions', array('name' => $name)));
+        return $this->client->send(['/api/users/{name}/permissions', ['name' => $name]]);
     }
 }

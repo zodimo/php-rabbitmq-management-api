@@ -1,8 +1,8 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
-use RabbitMq\ManagementApi\Exception\InvalidArgumentException;
+use Markup\RabbitMq\ManagementApi\Exception\InvalidArgumentException;
 
 /**
  * Permission
@@ -24,13 +24,13 @@ class Permission extends AbstractApi
     /**
      * An individual permission of a user and virtual host.
      *
-     * @param string $vhost
-     * @param string $user
+     * @param  string $vhost
+     * @param  string $user
      * @return array
      */
     public function get($vhost, $user)
     {
-        return $this->client->send(array('/api/permissions/{vhost}/{user}', array('vhost' => $vhost, 'user' => $user)));
+        return $this->client->send(['/api/permissions/{vhost}/{user}', ['vhost' => $vhost, 'user' => $user]]);
     }
 
     /**
@@ -40,9 +40,9 @@ class Permission extends AbstractApi
      *
      * All keys are mandatory.
      *
-     * @param string $vhost
-     * @param string $user
-     * @param array $permission
+     * @param  string                   $vhost
+     * @param  string                   $user
+     * @param  array                    $permission
      * @return array
      * @throws InvalidArgumentException
      */
@@ -52,19 +52,18 @@ class Permission extends AbstractApi
             throw new InvalidArgumentException("Error creating permission: 'configure', 'write', and 'read' permissions must be properly set.");
         }
 
-        return $this->client->send(array('/api/permissions/{vhost}/{user}', array('vhost' => $vhost, 'user' => $user)), 'PUT', null, $permission);
+        return $this->client->send(['/api/permissions/{vhost}/{user}', ['vhost' => $vhost, 'user' => $user]], 'PUT', null, $permission);
     }
 
     /**
      * Delete a specific set of permissions
      *
-     * @param string $vhost
-     * @param string $user
+     * @param  string $vhost
+     * @param  string $user
      * @return array
      */
     public function delete($vhost, $user)
     {
-        return $this->client->send(array('/api/permissions/{vhost}/{user}', array('vhost' => $vhost, 'user' => $user)), 'DELETE');
+        return $this->client->send(['/api/permissions/{vhost}/{user}', ['vhost' => $vhost, 'user' => $user]], 'DELETE');
     }
-
 }

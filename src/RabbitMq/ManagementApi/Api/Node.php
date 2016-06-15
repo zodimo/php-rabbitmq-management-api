@@ -1,6 +1,6 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
 /**
  * Nodes
@@ -22,12 +22,12 @@ class Node extends AbstractApi
     /**
      * An individual node in the RabbitMQ cluster. Add "?memory=true" to get memory statistics.
      *
-     * @param string $name
-     * @param bool   $memory
+     * @param  string $name
+     * @param  bool   $memory
      * @return array
      */
     public function get($name, $memory = false)
     {
-        return $this->client->send(array('/api/nodes/{name}{?memory}', array('name' => $name, 'memory' => $memory)));
+        return $this->client->send(['/api/nodes/{name}{?memory}', ['name' => $name, 'memory' => $memory]]);
     }
 }

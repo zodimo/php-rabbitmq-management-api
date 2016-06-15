@@ -1,6 +1,6 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
 /**
  * Queue
@@ -16,7 +16,7 @@ class Queue extends AbstractApi
      *
      * A list of all queues in a given virtual host.
      *
-     * @param string|null $vhost
+     * @param  string|null $vhost
      * @return array
      */
     public function all($vhost = null)
@@ -31,8 +31,8 @@ class Queue extends AbstractApi
     /**
      * An individual queue.
      *
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function get($vhost, $name)
@@ -52,9 +52,9 @@ class Queue extends AbstractApi
      *
      * All keys are optional.
      *
-     * @param string $vhost
-     * @param string $name
-     * @param array $queue
+     * @param  string $vhost
+     * @param  string $name
+     * @param  array  $queue
      * @return array
      */
     public function create($vhost, $name, array $queue)
@@ -63,8 +63,8 @@ class Queue extends AbstractApi
     }
 
     /**
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function delete($vhost, $name)
@@ -74,9 +74,9 @@ class Queue extends AbstractApi
 
     /**
      * A list of all bindings on a given queue.
-     * 
-     * @param string $vhost
-     * @param string $queue
+     *
+     * @param  string $vhost
+     * @param  string $queue
      * @return array
      */
     public function bindings($vhost, $queue)
@@ -87,8 +87,8 @@ class Queue extends AbstractApi
     /**
      * Contents of a queue. DELETE to purge. Note you can't GET this.
      *
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function purgeMessages($vhost, $name)
@@ -119,21 +119,21 @@ class Queue extends AbstractApi
      * etc - they do not implement reliable delivery and so should be treated as a sysadmin's tool rather than a general
      * API for messaging.
      *
-     * @param string $vhost
-     * @param string $name
-     * @param integer $count
-     * @param bool $requeue
-     * @param string $encoding
-     * @param null|integer $truncate
+     * @param  string       $vhost
+     * @param  string       $name
+     * @param  integer      $count
+     * @param  bool         $requeue
+     * @param  string       $encoding
+     * @param  null|integer $truncate
      * @return array
      */
     public function retrieveMessages($vhost, $name, $count = 5, $requeue = true, $encoding = 'auto', $truncate = null)
     {
-        $parameters = array(
+        $parameters = [
             'count' => $count,
             'requeue' => $requeue,
-            'encoding' => $encoding
-        );
+            'encoding' => $encoding,
+        ];
 
         if ($truncate) {
             $parameters['truncate'] = $truncate;

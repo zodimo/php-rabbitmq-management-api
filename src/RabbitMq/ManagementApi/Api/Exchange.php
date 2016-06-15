@@ -1,8 +1,8 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
-use RabbitMq\ManagementApi\Exception\InvalidArgumentException;
+use Markup\RabbitMq\ManagementApi\Exception\InvalidArgumentException;
 
 /**
  * Exchange
@@ -18,13 +18,13 @@ class Exchange extends AbstractApi
      *
      * A list of all exchanges in a given virtual host.
      *
-     * @param null|string $vhost
+     * @param  null|string $vhost
      * @return array
      */
     public function all($vhost = null)
     {
         if ($vhost) {
-            return $this->client->send(array('/api/exchanges/{vhost}', array('vhost' => $vhost)));
+            return $this->client->send(['/api/exchanges/{vhost}', ['vhost' => $vhost]]);
         } else {
             return $this->client->send('/api/exchanges');
         }
@@ -33,13 +33,13 @@ class Exchange extends AbstractApi
     /**
      * An individual exchange.
      *
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function get($vhost, $name)
     {
-        return $this->client->send(array('/api/exchanges/{vhost}/{name}', array('vhost' => $vhost, 'name' => $name)));
+        return $this->client->send(['/api/exchanges/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]]);
     }
 
     /**
@@ -55,9 +55,9 @@ class Exchange extends AbstractApi
      *
      * The 'type' key is mandatory; other keys are optional.
      *
-     * @param string $vhost
-     * @param string $name
-     * @param array  $exchange
+     * @param  string                                                     $vhost
+     * @param  string                                                     $name
+     * @param  array                                                      $exchange
      * @return array
      * @throws \RabbitMq\ManagementApi\Exception\InvalidArgumentException
      */
@@ -67,43 +67,47 @@ class Exchange extends AbstractApi
             throw new InvalidArgumentException("Error creating exchange: Exchange key 'type' is mandatory");
         }
 
-        return $this->client->send(array('/api/exchanges/{vhost}/{name}', array('vhost' => $vhost, 'name' => $name)), 'PUT', null, $exchange);
+        return $this->client->send(['/api/exchanges/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'PUT', null, $exchange);
     }
 
     /**
      * Delete an exchange
      *
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function delete($vhost, $name)
     {
-        return $this->client->send(array('/api/exchanges/{vhost}/{name}', array('vhost' => $vhost, 'name' => $name)), 'DELETE');
+        return $this->client->send(['/api/exchanges/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'DELETE');
     }
 
     /**
      * A list of all bindings in which a given exchange is the source.
      *
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function sourceBindings($vhost, $name)
     {
-        return $this->client->send(array('/api/exchanges/{vhost}/{name}/bindings/source', array('vhost' => $vhost, 'name' => $name)));
+        return $this->client->send(
+            ['/api/exchanges/{vhost}/{name}/bindings/source', ['vhost' => $vhost, 'name' => $name]]
+        );
     }
 
     /**
      * A list of all bindings in which a given exchange is the destination.
      *
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function destinationBindings($vhost, $name)
     {
-        return $this->client->send(array('/api/exchanges/{vhost}/{name}/bindings/destination', array('vhost' => $vhost, 'name' => $name)));
+        return $this->client->send(
+            ['/api/exchanges/{vhost}/{name}/bindings/destination', ['vhost' => $vhost, 'name' => $name]]
+        );
     }
 
     /**
@@ -128,9 +132,9 @@ class Exchange extends AbstractApi
      *
      * Please note that the publish / get paths in the HTTP API are intended for injecting test messages, diagnostics etc - they do not implement reliable delivery and so should be treated as a sysadmin's tool rather than a general API for messaging.
      *
-     * @param string $vhost
-     * @param string $name
-     * @param array $message
+     * @param  string                   $vhost
+     * @param  string                   $name
+     * @param  array                    $message
      * @throws InvalidArgumentException
      * @return array
      */
@@ -146,6 +150,6 @@ class Exchange extends AbstractApi
             throw new InvalidArgumentException("Error publishing to exchange: Message key 'payload_encoding' is mandatory");
         }
 
-        return $this->client->send(array('/api/exchanges/{vhost}/{name}/publish', array('vhost' => $vhost, 'name' => $name)), 'POST', null, $message);
+        return $this->client->send(['/api/exchanges/{vhost}/{name}/publish', ['vhost' => $vhost, 'name' => $name]], 'POST', null, $message);
     }
 }

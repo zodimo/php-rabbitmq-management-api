@@ -1,6 +1,6 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
 /**
  * Channel
@@ -22,11 +22,11 @@ class Channel extends AbstractApi
     /**
      * Details about an individual channel.
      *
-     * @param string $channel
+     * @param  string $channel
      * @return array
      */
     public function get($channel)
     {
-        return $this->client->send(array('/api/channels/{channel}', array('channel' => $channel)));
+        return $this->client->send(['/api/channels/{channel}', ['channel' => $channel]]);
     }
 }

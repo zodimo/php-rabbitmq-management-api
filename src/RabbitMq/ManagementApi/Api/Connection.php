@@ -1,6 +1,6 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
 /**
  * Connection
@@ -22,22 +22,22 @@ class Connection extends AbstractApi
     /**
      * An individual connection.
      *
-     * @param string $name
+     * @param  string    $name
      * @return array|int
      */
     public function get($name)
     {
-        return $this->client->send(array('/api/connections/{name}', array('name' => $name)));
+        return $this->client->send(['/api/connections/{name}', ['name' => $name]]);
     }
 
     /**
      *  Deleting a connection will close it.
      *
-     * @param string $name
+     * @param  string    $name
      * @return array|int
      */
     public function delete($name)
     {
-        return $this->client->send(array('/api/connections/{name}', array('name' => $name)), 'DELETE');
+        return $this->client->send(['/api/connections/{name}', ['name' => $name]], 'DELETE');
     }
 }

@@ -1,7 +1,9 @@
 PHP RabbitMQ Management Api
 ===========================
 
-A simple object oriented wrapper for the [RabbitMQ Management HTTP Api](http://hg.rabbitmq.com/rabbitmq-management/raw-file/rabbitmq_v3_0_3/priv/www/api/index.html) in PHP 5.3
+A simple object oriented wrapper for the [RabbitMQ Management HTTP Api](http://hg.rabbitmq.com/rabbitmq-management/raw-file/rabbitmq_v3_0_3/priv/www/api/index.html) in PHP 5.5.
+
+Forked from 'richardfullmer/php-rabbitmq-management-api' in order to modernize the code and add tests.
 
 Uses [Guzzle](http://guzzlephp.org) for REST requests.
 
@@ -11,7 +13,7 @@ Installation
 Installable through composer via:
 
 ```bash
-$ composer require richardfullmer/rabbitmq-management-api
+$ composer require markup/rabbitmq-management-api
 ```
 
 Basic Usage
@@ -20,7 +22,7 @@ Basic Usage
 ```php
 <?php
 
-use RabbitMq\ManagementApi\Client;
+use Markup\RabbitMq\ManagementApi\Client;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
@@ -48,5 +50,4 @@ Credits
 -------
 
 Structure from [KnpLabs php-github-api](https://github.com/KnpLabs/php-github-api)
-
-Rabbit's Excellent Message Queue
+Rabbit's [Excellent Message Queue](https://www.rabbitmq.com/)
