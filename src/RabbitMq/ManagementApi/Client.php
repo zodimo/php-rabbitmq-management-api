@@ -1,6 +1,6 @@
 <?php
 
-namespace RabbitMq\ManagementApi;
+namespace Markup\RabbitMq\ManagementApi;
 
 use Guzzle\Http\Client as GuzzleHttpClient;
 
@@ -22,9 +22,9 @@ class Client
      */
     /**
      * @param \Guzzle\Http\Client $client
-     * @param string $baseUrl
-     * @param string $username
-     * @param string $password
+     * @param string              $baseUrl
+     * @param string              $username
+     * @param string              $password
      */
     public function __construct(GuzzleHttpClient $client = null, $baseUrl = 'http://localhost:15672', $username = 'guest', $password = 'guest')
     {
@@ -42,12 +42,12 @@ class Client
      *
      * Note: the test queue will not be deleted (to to prevent queue churn if this is repeatedly pinged).
      *
-     * @param string $vhost
+     * @param  string $vhost
      * @return array
      */
     public function alivenessTest($vhost)
     {
-        return $this->send(array('/api/aliveness-test/{vhost}', array('vhost' => $vhost)));
+        return $this->send(['/api/aliveness-test/{vhost}', ['vhost' => $vhost]]);
     }
 
     /**
@@ -178,10 +178,10 @@ class Client
     }
 
     /**
-     * @param string|array          $endpoint Resource URI.
-     * @param string                $method
-     * @param array                 $headers  HTTP headers
-     * @param string|resource|array $body     Entity body of request (POST/PUT) or response (GET)
+     * @param  string|array          $endpoint Resource URI.
+     * @param  string                $method
+     * @param  array                 $headers  HTTP headers
+     * @param  string|resource|array $body     Entity body of request (POST/PUT) or response (GET)
      * @return array
      */
     public function send($endpoint, $method = 'GET', $headers = null, $body = null)
@@ -189,17 +189,15 @@ class Client
         if (null !== $body) {
             $body = json_encode($body);
         }
-        
+
         $request = $this->client->createRequest($method, $endpoint, $headers, $body)->setAuth($this->username, $this->password);
-        
-        if (in_array($method, array('PUT', 'POST', 'DELETE'))) {
+
+        if (in_array($method, ['PUT', 'POST', 'DELETE'])) {
             $request->setHeader('content-type', 'application/json');
         }
-        
+
         $response = $request->send();
 
         return json_decode($response->getBody(), true);
     }
-
-
 }

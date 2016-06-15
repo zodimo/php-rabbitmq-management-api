@@ -1,6 +1,6 @@
 <?php
 
-namespace RabbitMq\ManagementApi\Api;
+namespace Markup\RabbitMq\ManagementApi\Api;
 
 /**
  * Policy
@@ -26,17 +26,17 @@ class Policy extends AbstractApi
      *
      * An individual policy.
      *
-     * @param string $vhost
-     * @param string|null $name
+     * @param  string      $vhost
+     * @param  string|null $name
      * @return array
      */
     public function get($vhost, $name = null)
     {
         if ($name) {
-            return $this->client->send(array('/api/policies/{vhost}/{name}', array('vhost' => $vhost, 'name' => $name)));
+            return $this->client->send(['/api/policies/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]]);
         }
 
-        return $this->client->send(array('/api/policies/{vhost}', array('vhost' => $vhost)));
+        return $this->client->send(['/api/policies/{vhost}', ['vhost' => $vhost]]);
     }
 
     /**
@@ -44,25 +44,25 @@ class Policy extends AbstractApi
      *
      * {"pattern":"^amq.", "definition": {"federation-upstream-set":"all"}, "priority":0}
      *
-     * @param string $vhost
-     * @param string $name
-     * @param array $policy
+     * @param  string $vhost
+     * @param  string $name
+     * @param  array  $policy
      * @return array
      */
     public function create($vhost, $name, array $policy)
     {
-        return $this->client->send(array('/api/policies/{vhost}/{name}', array('vhost' => $vhost, 'name' => $name)), 'PUT', null, $policy);
+        return $this->client->send(['/api/policies/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'PUT', null, $policy);
     }
 
     /**
      * Delete a policy
      *
-     * @param string $vhost
-     * @param string $name
+     * @param  string $vhost
+     * @param  string $name
      * @return array
      */
     public function delete($vhost, $name)
     {
-        return $this->client->send(array('/api/policies/{vhost}/{name}', array('vhost' => $vhost, 'name' => $name)), 'DELETE');
+        return $this->client->send(['/api/policies/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'DELETE');
     }
 }
