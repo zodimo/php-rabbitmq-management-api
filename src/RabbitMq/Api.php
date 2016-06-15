@@ -27,6 +27,22 @@ class Api
     }
 
     /**
+     * Declares a test queue, then publishes and consumes a message. Intended for use by monitoring tools. If
+     * everything is working correctly, will return HTTP status 200 with body:
+     *
+     * {"status":"ok"}
+     *
+     * Note: the test queue will not be deleted (to to prevent queue churn if this is repeatedly pinged).
+     *
+     * @param  string $vhost
+     * @return array
+     */
+    public function alivenessTest($vhost)
+    {
+        return $this->client->send(['/api/aliveness-test/{vhost}', ['vhost' => $vhost]]);
+    }
+
+    /**
      * @return Api\Overview
      */
     public function overview()
