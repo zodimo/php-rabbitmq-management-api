@@ -3,14 +3,14 @@
 namespace Markup\RabbitMq;
 
 use Guzzle\Http\Client as GuzzleHttpClient;
-use Markup\RabbitMq\ManagementApi\Api as Api;
+use Markup\RabbitMq\ManagementApi\Api;
 use Markup\RabbitMq\ManagementApi\Client as RabbitMqApiClient;
 
 /**
  * Factory class for API Endpoints.
  * Returns Api classes for use in fluent interface
  */
-class Api
+class ApiFactory
 {
     /**
      * @var RabbitMqApiClient
