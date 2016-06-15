@@ -37,16 +37,23 @@ class Client
     const PASSWORD_DEFAULT = 'guest';
 
     /**
+     * @var string
+     */
+    const BASEURL_DEFAULT = 'http://localhost:15672';
+
+    /**
      * @param \Guzzle\Http\Client $client
      * @param string              $username
      * @param string              $password
      */
     public function __construct(
-        GuzzleHttpClient $client = null,
+        $baseUrl = self::BASEURL_DEFAULT,
         $username = self::USERNAME_DEFAULT,
-        $password =  self::PASSWORD_DEFAULT
+        $password = self::PASSWORD_DEFAULT
     ) {
-        $this->client = $client;
+        $this->client = new GuzzleHttpClient();
+        $this->client->setBaseUrl($baseUrl);
+
         $this->username = $username;
         $this->password = $password;
     }
