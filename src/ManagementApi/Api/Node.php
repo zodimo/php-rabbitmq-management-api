@@ -2,6 +2,8 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
+
 /**
  * Nodes
  *
@@ -28,6 +30,6 @@ class Node extends AbstractApi
      */
     public function get($name, $memory = false)
     {
-        return $this->client->send(['/api/nodes/{name}{?memory}', ['name' => $name, 'memory' => $memory]]);
+        return $this->client->send(uri_template('/api/nodes/{name}{?memory}', ['name' => $name, 'memory' => $memory]));
     }
 }

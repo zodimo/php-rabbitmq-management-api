@@ -2,7 +2,8 @@
 
 namespace Markup\RabbitMq\ManagementApi;
 
-use Guzzle\Http\Client as GuzzleHttpClient;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Psr7\Request;
 
 /**
  * ManagementApi
@@ -12,7 +13,7 @@ use Guzzle\Http\Client as GuzzleHttpClient;
 class Client
 {
     /**
-     * @var GuzzleHttpClient
+     * @var GuzzleClient
      */
     protected $client;
 
@@ -41,19 +42,12 @@ class Client
      */
     const BASEURL_DEFAULT = 'http://localhost:15672';
 
-    /**
-     * @param \Guzzle\Http\Client $client
-     * @param string              $username
-     * @param string              $password
-     */
     public function __construct(
         $baseUrl = self::BASEURL_DEFAULT,
         $username = self::USERNAME_DEFAULT,
         $password = self::PASSWORD_DEFAULT
     ) {
-        $this->client = new GuzzleHttpClient();
-        $this->client->setBaseUrl($baseUrl);
-
+        $this->client = new GuzzleClient(['base_uri' => $baseUrl]);
         $this->username = $username;
         $this->password = $password;
     }
@@ -70,14 +64,11 @@ class Client
         if (null !== $body) {
             $body = json_encode($body);
         }
-
-        $request = $this->client->createRequest($method, $endpoint, $headers, $body)->setAuth($this->username, $this->password);
-
         if (in_array($method, ['PUT', 'POST', 'DELETE'])) {
-            $request->setHeader('content-type', 'application/json');
+            $headers['Content-Type'] = 'application/json';
         }
 
-        $response = $request->send();
+        $response = $this->client->send(new Request($method, $endpoint, $headers, $body));
 
         return json_decode($response->getBody(), true);
     }

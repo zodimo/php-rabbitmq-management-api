@@ -2,6 +2,8 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
+
 /**
  * Connection
  *
@@ -27,7 +29,7 @@ class Connection extends AbstractApi
      */
     public function get($name)
     {
-        return $this->client->send(['/api/connections/{name}', ['name' => $name]]);
+        return $this->client->send(uri_template('/api/connections/{name}', ['name' => $name]));
     }
 
     /**
@@ -38,6 +40,6 @@ class Connection extends AbstractApi
      */
     public function delete($name)
     {
-        return $this->client->send(['/api/connections/{name}', ['name' => $name]], 'DELETE');
+        return $this->client->send(uri_template('/api/connections/{name}', ['name' => $name]), 'DELETE');
     }
 }
