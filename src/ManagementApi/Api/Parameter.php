@@ -2,6 +2,8 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
+
 /**
  * Parameter
  *
@@ -31,14 +33,21 @@ class Parameter extends AbstractApi
     {
         if ($vhost && $name) {
             return $this->client->send(
-                ['/api/parameters/{component}/{vhost}/{name}', ['component' => $component, 'vhost' => $vhost, 'name' => $name]]
+                uri_template(
+                    '/api/parameters/{component}/{vhost}/{name}',
+                    [
+                        'component' => $component,
+                        'vhost' => $vhost,
+                        'name' => $name,
+                    ]
+                )
             );
         } elseif ($vhost) {
             return $this->client->send(
-                ['/api/parameters/{component}/{vhost}', ['component' => $component, 'vhost' => $vhost]]
+                uri_template('/api/parameters/{component}/{vhost}', ['component' => $component, 'vhost' => $vhost])
             );
         } else {
-            return $this->client->send(['/api/parameters/{component}', ['component' => $component]]);
+            return $this->client->send(uri_template('/api/parameters/{component}', ['component' => $component]));
         }
     }
 
@@ -61,7 +70,18 @@ class Parameter extends AbstractApi
     public function create($component, $vhost, $name, array $parameter)
     {
         return $this->client->send(
-            ['/api/parameters/{component}/{vhost}/{name}', ['component' => $component, 'vhost' => $vhost, 'name' => $name]], 'PUT', null, $parameter);
+            uri_template(
+                '/api/parameters/{component}/{vhost}/{name}',
+                [
+                    'component' => $component,
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            ),
+            'PUT',
+            null,
+            $parameter
+        );
     }
 
     /**
@@ -75,6 +95,15 @@ class Parameter extends AbstractApi
     public function delete($component, $vhost, $name)
     {
         return $this->client->send(
-            ['/api/parameters/{component}/{vhost}/{name}', ['component' => $component, 'vhost' => $vhost, 'name' => $name]], 'DELETE');
+            uri_template(
+                '/api/parameters/{component}/{vhost}/{name}',
+                [
+                    'component' => $component,
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            ),
+            'DELETE'
+        );
     }
 }

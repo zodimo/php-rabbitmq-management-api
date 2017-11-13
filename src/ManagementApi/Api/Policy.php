@@ -2,6 +2,8 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
+
 /**
  * Policy
  *
@@ -33,10 +35,10 @@ class Policy extends AbstractApi
     public function get($vhost, $name = null)
     {
         if ($name) {
-            return $this->client->send(['/api/policies/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]]);
+            return $this->client->send(uri_template('/api/policies/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]));
         }
 
-        return $this->client->send(['/api/policies/{vhost}', ['vhost' => $vhost]]);
+        return $this->client->send(uri_template('/api/policies/{vhost}', ['vhost' => $vhost]));
     }
 
     /**
@@ -51,7 +53,18 @@ class Policy extends AbstractApi
      */
     public function create($vhost, $name, array $policy)
     {
-        return $this->client->send(['/api/policies/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'PUT', null, $policy);
+        return $this->client->send(
+            uri_template(
+                '/api/policies/{vhost}/{name}',
+                [
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            ),
+            'PUT',
+            null,
+            $policy
+        );
     }
 
     /**
@@ -63,6 +76,15 @@ class Policy extends AbstractApi
      */
     public function delete($vhost, $name)
     {
-        return $this->client->send(['/api/policies/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'DELETE');
+        return $this->client->send(
+            uri_template(
+                '/api/policies/{vhost}/{name}',
+                [
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            ),
+            'DELETE'
+        );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
 use Markup\RabbitMq\ManagementApi\Exception\InvalidArgumentException;
 
 /**
@@ -24,7 +25,7 @@ class Exchange extends AbstractApi
     public function all($vhost = null)
     {
         if ($vhost) {
-            return $this->client->send(['/api/exchanges/{vhost}', ['vhost' => $vhost]]);
+            return $this->client->send(uri_template('/api/exchanges/{vhost}', ['vhost' => $vhost]));
         } else {
             return $this->client->send('/api/exchanges');
         }
@@ -39,7 +40,7 @@ class Exchange extends AbstractApi
      */
     public function get($vhost, $name)
     {
-        return $this->client->send(['/api/exchanges/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]]);
+        return $this->client->send(uri_template('/api/exchanges/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]));
     }
 
     /**
@@ -59,7 +60,7 @@ class Exchange extends AbstractApi
      * @param  string                                                     $name
      * @param  array                                                      $exchange
      * @return array
-     * @throws \RabbitMq\ManagementApi\Exception\InvalidArgumentException
+     * @throws \Markup\RabbitMq\ManagementApi\Exception\InvalidArgumentException
      */
     public function create($vhost, $name, array $exchange)
     {
@@ -67,7 +68,18 @@ class Exchange extends AbstractApi
             throw new InvalidArgumentException("Error creating exchange: Exchange key 'type' is mandatory");
         }
 
-        return $this->client->send(['/api/exchanges/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'PUT', null, $exchange);
+        return $this->client->send(
+            uri_template(
+                '/api/exchanges/{vhost}/{name}',
+                [
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            ),
+            'PUT',
+            null,
+            $exchange
+        );
     }
 
     /**
@@ -79,7 +91,16 @@ class Exchange extends AbstractApi
      */
     public function delete($vhost, $name)
     {
-        return $this->client->send(['/api/exchanges/{vhost}/{name}', ['vhost' => $vhost, 'name' => $name]], 'DELETE');
+        return $this->client->send(
+            uri_template(
+                '/api/exchanges/{vhost}/{name}',
+                [
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            ),
+            'DELETE'
+        );
     }
 
     /**
@@ -92,7 +113,13 @@ class Exchange extends AbstractApi
     public function sourceBindings($vhost, $name)
     {
         return $this->client->send(
-            ['/api/exchanges/{vhost}/{name}/bindings/source', ['vhost' => $vhost, 'name' => $name]]
+            uri_template(
+                '/api/exchanges/{vhost}/{name}/bindings/source',
+                [
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            )
         );
     }
 
@@ -106,7 +133,13 @@ class Exchange extends AbstractApi
     public function destinationBindings($vhost, $name)
     {
         return $this->client->send(
-            ['/api/exchanges/{vhost}/{name}/bindings/destination', ['vhost' => $vhost, 'name' => $name]]
+            uri_template(
+                '/api/exchanges/{vhost}/{name}/bindings/destination',
+                [
+                    'vhost' => $vhost,
+                    'name' => $name
+                ]
+            )
         );
     }
 
@@ -150,6 +183,17 @@ class Exchange extends AbstractApi
             throw new InvalidArgumentException("Error publishing to exchange: Message key 'payload_encoding' is mandatory");
         }
 
-        return $this->client->send(['/api/exchanges/{vhost}/{name}/publish', ['vhost' => $vhost, 'name' => $name]], 'POST', null, $message);
+        return $this->client->send(
+            uri_template(
+                '/api/exchanges/{vhost}/{name}/publish',
+                [
+                    'vhost' => $vhost,
+                    'name' => $name,
+                ]
+            ),
+            'POST',
+            null,
+            $message
+        );
     }
 }

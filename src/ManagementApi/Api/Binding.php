@@ -2,6 +2,8 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
+
 /**
  * @author Richard Fullmer <richard.fullmer@opensoftdev.com>
  */
@@ -20,7 +22,7 @@ class Binding extends AbstractApi
     public function all($vhost = null)
     {
         if ($vhost) {
-            return $this->client->send(['/api/bindings/{vhost}', ['vhost' => $vhost]]);
+            return $this->client->send(uri_template('/api/bindings/{vhost}', ['vhost' => $vhost]));
         } else {
             return $this->client->send('/api/bindings');
         }
@@ -38,7 +40,14 @@ class Binding extends AbstractApi
     public function binding($vhost, $exchange, $queue)
     {
         return $this->client->send(
-            ['/api/bindings/{vhost}/e/{exchange}/q/{queue}', ['vhost' => $vhost, 'exchange' => $exchange, 'queue' => $queue]]
+            uri_template(
+                '/api/bindings/{vhost}/e/{exchange}/q/{queue}',
+                [
+                    'vhost' => $vhost,
+                    'exchange' => $exchange,
+                    'queue' => $queue
+                ]
+            )
         );
     }
 
@@ -73,7 +82,18 @@ class Binding extends AbstractApi
         }
 
         return $this->client->send(
-            ['/api/bindings/{vhost}/e/{exchange}/q/{queue}', ['vhost' => $vhost, 'exchange' => $exchange, 'queue' => $queue]], 'POST', null, $parameters);
+            uri_template(
+                '/api/bindings/{vhost}/e/{exchange}/q/{queue}',
+                [
+                    'vhost' => $vhost,
+                    'exchange' => $exchange,
+                    'queue' => $queue,
+                ]
+            ),
+            'POST',
+            null,
+            $parameters
+        );
     }
 
     /**
@@ -89,7 +109,15 @@ class Binding extends AbstractApi
     public function get($vhost, $exchange, $queue, $props)
     {
         return $this->client->send(
-            ['/api/bindings/{vhost}/e/{exchange}/q/{queue}/{props}', ['vhost' => $vhost, 'exchange' => $exchange, 'queue' => $queue, 'props' => $props]]
+            uri_template(
+                '/api/bindings/{vhost}/e/{exchange}/q/{queue}/{props}',
+                [
+                    'vhost' => $vhost,
+                    'exchange' => $exchange,
+                    'queue' => $queue,
+                    'props' => $props,
+                ]
+            )
         );
     }
 
@@ -105,6 +133,16 @@ class Binding extends AbstractApi
     public function delete($vhost, $exchange, $queue, $props)
     {
         return $this->client->send(
-            ['/api/bindings/{vhost}/e/{exchange}/q/{queue}/{props}', ['vhost' => $vhost, 'exchange' => $exchange, 'queue' => $queue, 'props' => $props]], 'DELETE');
+            uri_template(
+                '/api/bindings/{vhost}/e/{exchange}/q/{queue}/{props}',
+                [
+                    'vhost' => $vhost,
+                    'exchange' => $exchange,
+                    'queue' => $queue,
+                    'props' => $props,
+                ]
+            ),
+            'DELETE'
+        );
     }
 }

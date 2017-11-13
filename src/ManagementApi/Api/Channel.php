@@ -2,6 +2,8 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
+
 /**
  * Channel
  *
@@ -27,6 +29,6 @@ class Channel extends AbstractApi
      */
     public function get($channel)
     {
-        return $this->client->send(['/api/channels/{channel}', ['channel' => $channel]]);
+        return $this->client->send(uri_template('/api/channels/{channel}', ['channel' => $channel]));
     }
 }

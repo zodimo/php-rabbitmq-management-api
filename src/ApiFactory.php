@@ -2,7 +2,6 @@
 
 namespace Markup\RabbitMq;
 
-use Guzzle\Http\Client as GuzzleHttpClient;
 use Markup\RabbitMq\ManagementApi\Api;
 use Markup\RabbitMq\ManagementApi\Client as RabbitMqApiClient;
 

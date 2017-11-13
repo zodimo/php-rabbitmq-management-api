@@ -4,7 +4,6 @@ namespace Markup\RabbitMq\ManagementApi\Api;
 
 class WhoAmI extends AbstractApi
 {
-
     /**
      * @return array
      */

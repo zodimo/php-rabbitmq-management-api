@@ -2,6 +2,7 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
+use function GuzzleHttp\uri_template;
 use Markup\RabbitMq\ManagementApi\Exception\InvalidArgumentException;
 
 /**
@@ -30,7 +31,7 @@ class Permission extends AbstractApi
      */
     public function get($vhost, $user)
     {
-        return $this->client->send(['/api/permissions/{vhost}/{user}', ['vhost' => $vhost, 'user' => $user]]);
+        return $this->client->send(uri_template('/api/permissions/{vhost}/{user}', ['vhost' => $vhost, 'user' => $user]));
     }
 
     /**
@@ -52,7 +53,18 @@ class Permission extends AbstractApi
             throw new InvalidArgumentException("Error creating permission: 'configure', 'write', and 'read' permissions must be properly set.");
         }
 
-        return $this->client->send(['/api/permissions/{vhost}/{user}', ['vhost' => $vhost, 'user' => $user]], 'PUT', null, $permission);
+        return $this->client->send(
+            uri_template(
+                '/api/permissions/{vhost}/{user}',
+                [
+                    'vhost' => $vhost,
+                    'user' => $user,
+                ]
+            ),
+            'PUT',
+            null,
+            $permission
+        );
     }
 
     /**
@@ -64,6 +76,15 @@ class Permission extends AbstractApi
      */
     public function delete($vhost, $user)
     {
-        return $this->client->send(['/api/permissions/{vhost}/{user}', ['vhost' => $vhost, 'user' => $user]], 'DELETE');
+        return $this->client->send(
+            uri_template(
+                '/api/permissions/{vhost}/{user}',
+                [
+                    'vhost' => $vhost,
+                    'user' => $user,
+                ]
+            ),
+            'DELETE'
+        );
     }
 }
