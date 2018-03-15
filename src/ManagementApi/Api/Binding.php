@@ -2,7 +2,7 @@
 
 namespace Markup\RabbitMq\ManagementApi\Api;
 
-use function GuzzleHttp\uri_template;
+use GuzzleHttp\uri_template;
 
 /**
  * @author Richard Fullmer <richard.fullmer@opensoftdev.com>
